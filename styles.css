@@ -193,40 +193,6 @@ body {
     color: #636e72;
 }
 
-/* Auto Update Status */
-.update-status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    color: white;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-#updateIcon {
-    color: #4ade80;
-}
-
-#updateIcon.updating {
-    animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.next-update {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.8rem;
-}
-
 /* Forecast Selector */
 .forecast-selector {
     display: flex;
@@ -328,6 +294,31 @@ body {
     font-size: 0.8rem;
 }
 
+.monthly-overview {
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Day Divider */
+.day-divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 15px 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.day-divider i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
 /* Enhanced Hourly Forecast */
 .hourly-detailed-container {
     display: flex;
@@ -422,6 +413,7 @@ body {
     align-items: center;
     gap: 6px;
     font-weight: 500;
+    margin-bottom: 2px;
 }
 
 .hourly-rain-details {
@@ -447,6 +439,13 @@ body {
 .humidity-info {
     color: #17a2b8;
     font-weight: 500;
+}
+
+.uv-index {
+    color: #f39c12;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-top: 4px;
 }
 
 /* Current Weather */
@@ -706,48 +705,62 @@ body {
     font-weight: 600;
 }
 
-/* Monthly Forecast */
+/* Enhanced Monthly Forecast - Weekly Style Layout */
 .monthly-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .monthly-item {
+    display: grid;
+    grid-template-columns: 140px 80px 1fr 2fr;
+    align-items: center;
+    padding: 18px 20px;
     background: linear-gradient(135deg, #f8f9fa, #ffffff);
     border-radius: 15px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-top: 5px solid #667eea;
-    transition: transform 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    border-left: 5px solid #667eea;
+    transition: all 0.3s ease;
+    gap: 18px;
 }
 
 .monthly-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 
-.monthly-date {
-    font-size: 1.1rem;
+.monthly-day {
+    display: flex;
+    flex-direction: column;
     font-weight: 700;
     color: #2d3436;
-    margin-bottom: 10px;
+}
+
+.day-name {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.day-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 500;
 }
 
 .monthly-icon {
     font-size: 2.8rem;
-    margin: 10px 0;
+    text-align: center;
 }
 
 .monthly-temps {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: center;
+    gap: 10px;
 }
 
 .monthly-high {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #e17055;
 }
@@ -758,26 +771,59 @@ body {
     font-weight: 600;
 }
 
-.monthly-details {
+.monthly-detailed-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     font-size: 0.85rem;
     color: #6c757d;
-    line-height: 1.4;
-    font-weight: 500;
+}
+
+.monthly-primary-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 4px;
 }
 
 .monthly-rain {
     font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.monthly-total-rain {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.monthly-conditions {
+    font-weight: 500;
+}
+
+.monthly-secondary-info {
+    display: flex;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.monthly-feels-like,
+.monthly-pressure,
+.monthly-uv {
+    font-weight: 500;
+}
+
+.monthly-sun-info {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #856404;
+    font-weight: 500;
 }
 
 .monthly-rain-times {
     font-size: 0.75rem;
     color: #17a2b8;
-    font-weight: 600;
-    margin-top: 4px;
-}
-
-.monthly-total-rain {
-    font-size: 0.8rem;
     font-weight: 600;
     margin-top: 2px;
 }
@@ -839,7 +885,9 @@ body {
         align-items: flex-start;
     }
     
-    .hourly-detailed-item {
+    .hourly-detailed-item,
+    .weekly-item,
+    .monthly-item {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 12px;
@@ -864,20 +912,19 @@ body {
         gap: 8px;
     }
     
-    .weekly-item {
-        grid-template-columns: 1fr;
+    .day-divider {
         text-align: center;
-        gap: 12px;
     }
     
-    .monthly-container {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    .monthly-detailed-info {
+        text-align: left;
     }
-
-    .update-status {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
+    
+    .monthly-primary-info,
+    .monthly-secondary-info,
+    .monthly-sun-info {
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
 
@@ -896,9 +943,5 @@ body {
     
     .detail-item {
         padding: 10px 12px;
-    }
-    
-    .monthly-container {
-        grid-template-columns: 1fr;
     }
 }

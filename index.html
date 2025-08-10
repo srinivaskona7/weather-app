@@ -46,13 +46,6 @@
             </div>
         </div>
 
-        <!-- Auto Update Status -->
-        <div class="update-status" id="updateStatus">
-            <i class="fas fa-sync-alt" id="updateIcon"></i>
-            <span id="updateText">Last updated: <span id="lastUpdate">--:--</span></span>
-            <span class="next-update">Next update in: <span id="countdown">--:--</span></span>
-        </div>
-
         <!-- Forecast Type Selector -->
         <div class="forecast-selector">
             <button class="forecast-btn active" data-type="hourly">Hourly</button>
@@ -88,11 +81,16 @@
             </div>
         </div>
 
-        <!-- Monthly Forecast Card -->
+        <!-- Enhanced Monthly Forecast Card -->
         <div class="weather-card monthly-forecast" id="monthlyForecastCard" style="display: none;">
-            <h3 class="forecast-title">30-Day Forecast</h3>
+            <div class="forecast-header">
+                <h3 class="forecast-title">30-Day Detailed Forecast</h3>
+                <div class="forecast-summary" id="monthlyForecastSummary">
+                    <span class="monthly-overview">Comprehensive daily weather information</span>
+                </div>
+            </div>
             <div class="monthly-container" id="monthlyContainer">
-                <!-- Monthly items will be dynamically generated -->
+                <!-- Enhanced monthly items will be dynamically generated in weekly-style format -->
             </div>
         </div>
 
