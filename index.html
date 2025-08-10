@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srinivas Weather Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-cloud-sun"></i> Srinivas Weather Dashboard</h1>
+            <p class="subtitle">Nidadavole & Tallapudi Weather Forecast</p>
+        </header>
+
+        <!-- Weather Alerts -->
+        <div class="weather-alerts" id="weatherAlerts" style="display: none;">
+            <div class="alert-item">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="alertMessage">Heavy rain expected today - 25mm</span>
+            </div>
+        </div>
+
+        <!-- Location Toggle -->
+        <div class="location-selector">
+            <button class="location-btn" data-location="nidadavole" data-coords="16.9039,81.6758">
+                <i class="fas fa-map-marker-alt"></i> Nidadavole
+            </button>
+            <button class="location-btn" data-location="tallapudi" data-coords="16.8833,81.6833">
+                <i class="fas fa-map-marker-alt"></i> Tallapudi
+            </button>
+            <button class="location-btn" data-location="custom" id="customLocationBtn">
+                <i class="fas fa-search"></i> Custom Search
+            </button>
+        </div>
+
+        <!-- Custom Search Section -->
+        <div class="custom-search-section" id="customSearchSection" style="display: none;">
+            <div class="search-input-container">
+                <input type="text" id="customCityInput" placeholder="Enter city name (e.g., Mumbai, Hyderabad)" autocomplete="off" />
+                <button id="searchCustomBtn"><i class="fas fa-search"></i></button>
+                <div class="search-suggestions" id="searchSuggestions" style="display: none;">
+                    <!-- Search suggestions will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto Update Status -->
+        <div class="update-status" id="updateStatus">
+            <i class="fas fa-sync-alt" id="updateIcon"></i>
+            <span id="updateText">Last updated: <span id="lastUpdate">--:--</span></span>
+            <span class="next-update">Next update in: <span id="countdown">--:--</span></span>
+        </div>
+
+        <!-- Forecast Type Selector -->
+        <div class="forecast-selector">
+            <button class="forecast-btn active" data-type="hourly">Hourly</button>
+            <button class="forecast-btn" data-type="weekly">Weekly</button>
+            <button class="forecast-btn" data-type="monthly">Monthly</button>
+            <button class="forecast-btn" data-type="current">Current</button>
+        </div>
+
+        <div class="error" id="error" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="errorMessage">Something went wrong. Please try again.</span>
+        </div>
+
+        <!-- Enhanced Hourly Forecast Card (Default) -->
+        <div class="weather-card hourly-forecast" id="hourlyForecastCard">
+            <div class="forecast-header">
+                <h3 class="forecast-title">24-Hour Detailed Forecast</h3>
+                <div class="forecast-summary" id="hourlyForecastSummary">
+                    <span class="total-rain" id="todayTotalRain">Today's Rain: 0mm</span>
+                    <span class="rain-periods" id="rainPeriods">No rain expected</span>
+                </div>
+            </div>
+            <div class="hourly-detailed-container" id="hourlyContainer">
+                <!-- Enhanced hourly items will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Weekly Forecast Card -->
+        <div class="weather-card weekly-forecast" id="weeklyForecastCard" style="display: none;">
+            <h3 class="forecast-title">7-Day Forecast</h3>
+            <div class="weekly-container" id="weeklyContainer">
+                <!-- Weekly items will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Monthly Forecast Card -->
+        <div class="weather-card monthly-forecast" id="monthlyForecastCard" style="display: none;">
+            <h3 class="forecast-title">30-Day Forecast</h3>
+            <div class="monthly-container" id="monthlyContainer">
+                <!-- Monthly items will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Current Weather Card -->
+        <div class="weather-card current-weather" id="currentWeatherCard" style="display: none;">
+            <div class="weather-header">
+                <div class="city-info">
+                    <h2 id="cityName">Nidadavole</h2>
+                    <p id="datetime">Sunday, August 10, 2025 - 12:00 PM IST</p>
+                    <span class="coordinates" id="coordinates">16.9°N, 81.7°E</span>
+                </div>
+                <div class="weather-icon">
+                    <div class="weather-icon-container" id="weatherIconContainer">
+                        <!-- Weather icon will be inserted here -->
+                    </div>
+                    <span id="weatherMain">Clear</span>
+                </div>
+            </div>
+
+            <div class="temperature-section">
+                <div class="main-temp">
+                    <span id="temperature">32°C</span>
+                    <span id="weatherDescription">Clear sky</span>
+                </div>
+                <div class="feels-like">
+                    Feels like <span id="feelsLike">35°C</span>
+                </div>
+                <div class="temp-range">
+                    <span class="high-temp">High: <span id="maxTemp">35°C</span></span>
+                    <span class="low-temp">Low: <span id="minTemp">28°C</span></span>
+                </div>
+            </div>
+
+            <div class="weather-details-grid">
+                <div class="detail-item">
+                    <i class="fas fa-tint"></i>
+                    <div class="detail-info">
+                        <span class="label">Humidity</span>
+                        <span class="value" id="humidity">65%</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-gauge-high"></i>
+                    <div class="detail-info">
+                        <span class="label">Pressure</span>
+                        <span class="value" id="pressure">1013 hPa</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-wind"></i>
+                    <div class="detail-info">
+                        <span class="label">Wind</span>
+                        <span class="value" id="windSpeed">12 km/h</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-eye"></i>
+                    <div class="detail-info">
+                        <span class="label">Visibility</span>
+                        <span class="value" id="visibility">10 km</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-cloud"></i>
+                    <div class="detail-info">
+                        <span class="label">Clouds</span>
+                        <span class="value" id="cloudiness">20%</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-cloud-rain"></i>
+                    <div class="detail-info">
+                        <span class="label">Rain</span>
+                        <span class="value" id="rainVolume">0 mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sun-info">
+                <div class="sun-item">
+                    <i class="fas fa-sun"></i>
+                    <span>Sunrise: <span id="sunrise">06:15 AM</span></span>
+                </div>
+                <div class="sun-item">
+                    <i class="fas fa-moon"></i>
+                    <span>Sunset: <span id="sunset">07:45 PM</span></span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Srinivas Weather Dashboard</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

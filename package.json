@@ -1,0 +1,43 @@
+{
+  "name": "weather-dashboard",
+  "version": "1.0.0",
+  "description": "A beautiful weather dashboard using OpenWeatherMap Pro API",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "dev": "live-server .",
+    "build": "echo 'No build process needed for static files'",
+    "deploy": "echo 'Deploy to your preferred hosting service'"
+  },
+  "keywords": [
+    "weather",
+    "dashboard",
+    "openweathermap",
+    "javascript",
+    "responsive",
+    "web-app"
+  ],
+  "author": "Weather App Generator",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/weather-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/weather-dashboard/issues"
+  },
+  "homepage": "https://github.com/yourusername/weather-dashboard#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11"
+  ],
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
