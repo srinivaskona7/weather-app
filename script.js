@@ -36,6 +36,7 @@ class SrinivasWeatherApp {
         this.locationBtns = document.querySelectorAll('.location-btn');
         this.forecastBtns = document.querySelectorAll('.forecast-btn');
         this.customLocationBtn = document.getElementById('customLocationBtn');
+        this.manageLocationBtn = document.getElementById('manageLocationBtn'); // New button
         this.customSearchSection = document.getElementById('customSearchSection');
         this.customCityInput = document.getElementById('customCityInput');
         this.searchCustomBtn = document.getElementById('searchCustomBtn');
@@ -46,6 +47,12 @@ class SrinivasWeatherApp {
         this.weatherAlerts = document.getElementById('weatherAlerts');
         this.alertMessage = document.getElementById('alertMessage');
         
+        // New elements for managing locations
+        this.manageLocationsSection = document.getElementById('manageLocationsSection');
+        this.manageLocationText = document.getElementById('manageLocationText');
+        this.setDefaultBtn = document.getElementById('setDefaultBtn');
+        this.removeDefaultBtn = document.getElementById('removeDefaultBtn');
+
         // Weather cards
         this.currentWeatherCard = document.getElementById('currentWeatherCard');
         this.hourlyForecastCard = document.getElementById('hourlyForecastCard');
@@ -86,11 +93,13 @@ class SrinivasWeatherApp {
     bindEvents() {
         // Location buttons
         this.locationBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                if (e.target.dataset.location === 'custom') {
+            btn.addEventListener('click', async (e) => {
+                const location = e.target.dataset.location;
+                if (location === 'custom') {
                     this.toggleCustomSearch();
                 } else {
-                    this.switchLocation(e.target.dataset.location, e.target.dataset.coords);
+                    const coords = e.target.dataset.coords;
+                    await this.switchLocation(location, coords);
                 }
             });
         });
@@ -127,7 +136,15 @@ class SrinivasWeatherApp {
             if (!this.customSearchSection.contains(e.target)) {
                 this.hideSuggestions();
             }
+            if (!this.manageLocationsSection.contains(e.target) && e.target.id !== 'manageLocationBtn') {
+                this.manageLocationsSection.style.display = 'none';
+            }
         });
+
+        // New events for managing locations
+        this.manageLocationBtn.addEventListener('click', () => this.toggleManageLocations());
+        this.setDefaultBtn.addEventListener('click', () => this.saveDefaultLocation());
+        this.removeDefaultBtn.addEventListener('click', () => this.removeDefaultLocation());
     }
 
     startAutoUpdate() {
@@ -178,6 +195,7 @@ class SrinivasWeatherApp {
             this.forecastData = forecastData;
             
             this.showForecastCard(this.currentForecastType);
+            this.updateManageLocationsUI();
             
         } catch (error) {
             console.error('Weather fetch error:', error);
@@ -635,13 +653,25 @@ class SrinivasWeatherApp {
     }
 
     async loadDefaultLocation() {
-        this.locationBtns[0].classList.add('active');
-        await this.switchLocation('nidadavole', '16.9039,81.6758');
+        const defaultLocation = JSON.parse(localStorage.getItem('defaultLocation'));
+        if (defaultLocation) {
+            this.currentLocation = defaultLocation.id;
+            this.currentCoords = defaultLocation.coords;
+            this.currentLocationName = defaultLocation.name;
+            await this.loadWeatherData();
+        } else {
+            this.locationBtns[0].classList.add('active');
+            await this.switchLocation('nidadavole', '16.9039,81.6758');
+        }
+        this.updateManageLocationsUI();
     }
 
     async switchLocation(location, coords) {
         this.locationBtns.forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-location="${location}"]`).classList.add('active');
+        const targetBtn = document.querySelector(`[data-location="${location}"]`);
+        if (targetBtn) {
+            targetBtn.classList.add('active');
+        }
         
         this.currentLocation = location;
         this.currentCoords = coords.split(',').map(Number);
@@ -751,6 +781,48 @@ class SrinivasWeatherApp {
             this.weatherAlerts.style.display = 'block';
         } else {
             this.weatherAlerts.style.display = 'none';
+        }
+    }
+
+    // New functions for managing default locations
+    toggleManageLocations() {
+        const isVisible = this.manageLocationsSection.style.display !== 'none';
+        if (isVisible) {
+            this.manageLocationsSection.style.display = 'none';
+        } else {
+            this.updateManageLocationsUI();
+            this.manageLocationsSection.style.display = 'flex';
+        }
+    }
+
+    saveDefaultLocation() {
+        const defaultLocation = {
+            id: this.currentLocation,
+            name: this.currentLocationName,
+            coords: this.currentCoords
+        };
+        localStorage.setItem('defaultLocation', JSON.stringify(defaultLocation));
+        this.updateManageLocationsUI();
+        alert(`${this.currentLocationName} has been set as the default location.`);
+    }
+
+    removeDefaultLocation() {
+        localStorage.removeItem('defaultLocation');
+        this.updateManageLocationsUI();
+        alert('Default location has been removed.');
+    }
+
+    updateManageLocationsUI() {
+        const defaultLocation = JSON.parse(localStorage.getItem('defaultLocation'));
+        this.manageLocationText.textContent = `Current Location: ${this.currentLocationName}`;
+
+        if (defaultLocation && defaultLocation.name === this.currentLocationName) {
+            this.removeDefaultBtn.style.display = 'inline-block';
+            this.setDefaultBtn.style.display = 'none';
+            this.manageLocationText.textContent += ' (Default)';
+        } else {
+            this.removeDefaultBtn.style.display = 'none';
+            this.setDefaultBtn.style.display = 'inline-block';
         }
     }
 

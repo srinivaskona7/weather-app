@@ -14,7 +14,6 @@
             <p class="subtitle">Nidadavole & Tallapudi Weather Forecast</p>
         </header>
 
-        <!-- Weather Alerts -->
         <div class="weather-alerts" id="weatherAlerts" style="display: none;">
             <div class="alert-item">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -22,7 +21,6 @@
             </div>
         </div>
 
-        <!-- Location Toggle -->
         <div class="location-selector">
             <button class="location-btn" data-location="nidadavole" data-coords="16.9039,81.6758">
                 <i class="fas fa-map-marker-alt"></i> Nidadavole
@@ -33,20 +31,26 @@
             <button class="location-btn" data-location="custom" id="customLocationBtn">
                 <i class="fas fa-search"></i> Custom Search
             </button>
+            <button class="location-btn" id="manageLocationBtn">
+                <i class="fas fa-cog"></i> Manage Location
+            </button>
+        </div>
+        
+        <div class="manage-locations-section" id="manageLocationsSection" style="display: none;">
+            <p id="manageLocationText"></p>
+            <button class="action-btn set-default-btn" id="setDefaultBtn">Set as Default</button>
+            <button class="action-btn remove-default-btn" id="removeDefaultBtn">Remove Default</button>
         </div>
 
-        <!-- Custom Search Section -->
         <div class="custom-search-section" id="customSearchSection" style="display: none;">
             <div class="search-input-container">
                 <input type="text" id="customCityInput" placeholder="Enter city name (e.g., Mumbai, Hyderabad)" autocomplete="off" />
                 <button id="searchCustomBtn"><i class="fas fa-search"></i></button>
                 <div class="search-suggestions" id="searchSuggestions" style="display: none;">
-                    <!-- Search suggestions will appear here -->
-                </div>
+                    </div>
             </div>
         </div>
 
-        <!-- Forecast Type Selector -->
         <div class="forecast-selector">
             <button class="forecast-btn active" data-type="hourly">Hourly</button>
             <button class="forecast-btn" data-type="weekly">Weekly</button>
@@ -59,7 +63,6 @@
             <span id="errorMessage">Something went wrong. Please try again.</span>
         </div>
 
-        <!-- Enhanced Hourly Forecast Card (Default) -->
         <div class="weather-card hourly-forecast" id="hourlyForecastCard">
             <div class="forecast-header">
                 <h3 class="forecast-title">24-Hour Detailed Forecast</h3>
@@ -69,19 +72,15 @@
                 </div>
             </div>
             <div class="hourly-detailed-container" id="hourlyContainer">
-                <!-- Enhanced hourly items will be dynamically generated -->
-            </div>
+                </div>
         </div>
 
-        <!-- Weekly Forecast Card -->
         <div class="weather-card weekly-forecast" id="weeklyForecastCard" style="display: none;">
             <h3 class="forecast-title">7-Day Forecast</h3>
             <div class="weekly-container" id="weeklyContainer">
-                <!-- Weekly items will be dynamically generated -->
-            </div>
+                </div>
         </div>
 
-        <!-- Enhanced Monthly Forecast Card -->
         <div class="weather-card monthly-forecast" id="monthlyForecastCard" style="display: none;">
             <div class="forecast-header">
                 <h3 class="forecast-title">30-Day Detailed Forecast</h3>
@@ -90,11 +89,9 @@
                 </div>
             </div>
             <div class="monthly-container" id="monthlyContainer">
-                <!-- Enhanced monthly items will be dynamically generated in weekly-style format -->
-            </div>
+                </div>
         </div>
 
-        <!-- Current Weather Card -->
         <div class="weather-card current-weather" id="currentWeatherCard" style="display: none;">
             <div class="weather-header">
                 <div class="city-info">
@@ -104,8 +101,7 @@
                 </div>
                 <div class="weather-icon">
                     <div class="weather-icon-container" id="weatherIconContainer">
-                        <!-- Weather icon will be inserted here -->
-                    </div>
+                        </div>
                     <span id="weatherMain">Clear</span>
                 </div>
             </div>
